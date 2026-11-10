@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#18251f">
+  <title>FORMA — магазин одежды</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" data-page="catalog"><span class="brand-mark">F</span><span>FORMA<small>одежда на каждый день</small></span></a>
+    <nav id="main-nav">
+      <button class="nav-link active" data-page="catalog">Каталог</button>
+      <button class="nav-link" data-page="cart" data-role="client">Корзина <b id="cart-count" class="count">0</b></button>
+      <button class="nav-link" data-page="orders" data-role="client,manager,admin">Заказы</button>
+      <button class="nav-link" data-page="admin" data-role="admin">Управление</button>
+    </nav>
+    <button class="user-trigger" id="user-trigger"><span class="user-dot"></span><span id="user-label">Гость</span><span>⌄</span></button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">НОВАЯ КОЛЛЕКЦИЯ</span>
+        <h1>Стиль начинается<br>с <em>простых вещей.</em></h1>
+        <p>Продуманная одежда для повседневной жизни. Выбирайте своё.</p>
+        <button class="primary-btn" data-page="catalog">Перейти в каталог <span>↗</span></button>
+      </div>
+      <div class="hero-art"><div class="hero-circle"></div><div class="hero-tag">FORMA<br><b>2026</b></div><div class="hero-caption">LESS, BUT BETTER</div></div>
+    </section>
+
+    <section id="catalog-page" class="page active">
+      <div class="section-head"><div><span class="eyebrow">ПОДБЕРИТЕ СВОЁ</span><h2>Каталог одежды</h2></div><span id="catalog-total" class="muted"></span></div>
+      <div class="catalog-layout">
+        <aside class="filters">
+          <div class="filter-head"><b>Фильтры</b><button class="text-btn" id="reset-filters">Сбросить</button></div>
+          <label>Тип изделия<input id="f-type" placeholder="Например, куртка"></label>
+          <label>Пол<select id="f-gender"><option value="">Любой</option><option value="м">Мужской</option><option value="ж">Женский</option></select></label>
+          <label>Размер<input id="f-size" placeholder="S, M, L, XL"></label>
+          <label>Цвет<input id="f-color" placeholder="Чёрный"></label>
+          <label>Бренд<input id="f-brand" placeholder="Название бренда"></label>
+          <label>Сезон<input id="f-season" placeholder="Зима, лето"></label>
+          <label>Сортировка<select id="f-sort"><option value="">По умолчанию</option><option value="price_asc">Сначала дешевле</option><option value="price_desc">Сначала дороже</option></select></label>
+          <button class="primary-btn full" id="apply-filters">Показать товары</button>
+        </aside>
+        <div class="catalog-content">
+          <div id="notice" class="notice hidden"></div>
+          <div id="product-grid" class="product-grid"><div class="loading">Загружаем каталог…</div></div>
+          <div class="pagination"><button id="prev-page" class="outline-btn">← Назад</button><span id="page-label">Страница 1</span><button id="next-page" class="outline-btn">Далее →</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="product-page" class="page">
+      <button class="back-link" data-page="catalog">← Вернуться в каталог</button>
+      <div id="product-detail"></div>
+    </section>
+
+    <section id="cart-page" class="page">
+      <div class="section-head"><div><span class="eyebrow">ВАШ ВЫБОР</span><h2>Корзина</h2></div></div>
+      <div id="cart-content"></div>
+    </section>
+
+    <section id="orders-page" class="page">
+      <div class="section-head"><div><span class="eyebrow">ИСТОРИЯ ПОКУПОК</span><h2>Заказы</h2></div></div>
+      <div class="toolbar"><select id="order-status"><option value="">Все статусы</option><option>Принят</option><option>В работе</option><option>Собран</option><option>Готов к выдаче</option><option>Отменён</option></select><button id="refresh-orders" class="outline-btn">Обновить</button></div>
+      <div id="orders-content"></div>
+    </section>
+
+    <section id="admin-page" class="page">
+      <div class="section-head"><div><span class="eyebrow">ПАНЕЛЬ УПРАВЛЕНИЯ</span><h2>Управление магазином</h2></div></div>
+      <div class="tabs"><button class="tab active" data-admin-tab="products">Товары</button><button class="tab" data-admin-tab="users">Пользователи</button><button class="tab" data-admin-tab="roles">Роли</button><button class="tab" data-admin-tab="orders">Заказы</button></div>
+      <div id="admin-content"></div>
+    </section>
+  </main>
+
+  <footer><div class="footer-brand">FORMA</div><span>Простота. Качество. Ваш стиль.</span><span>© 2026 FORMA</span></footer>
+
+  <dialog id="user-dialog">
+    <div class="dialog-head"><div><span class="eyebrow">АККАУНТ FORMA</span><h3>Личный кабинет</h3></div><form method="dialog"><button class="close-btn" aria-label="Закрыть">×</button></form></div>
+    <div class="dialog-body">
+      <div id="auth-current" class="hidden"><p class="muted small">Вы вошли в аккаунт:</p><div id="auth-current-name" class="hint"></div><div class="dialog-actions"><button type="button" id="logout-btn" class="outline-btn">Выйти из аккаунта</button></div></div>
+      <div id="auth-forms">
+        <div id="auth-login-panel">
+          <p class="muted small">Введите логин и пароль, чтобы открыть функции своей роли.</p>
+          <form id="login-form">
+            <label>Логин<input id="login-name" autocomplete="username" required></label>
+            <label>Пароль<input id="login-password" type="password" autocomplete="current-password" required></label>
+            <button class="primary-btn full">Войти</button>
+          </form>
+          <p class="muted small">Нет аккаунта? <button type="button" class="text-btn" id="show-register">Зарегистрироваться</button></p>
+          <div class="hint">Начальный логин администратора: <b>admin</b>. Пароль берётся из <code>ADMIN_PASSWORD</code> в файле .env (по умолчанию <b>Admin123!</b>).</div>
+        </div>
+        <div id="auth-register-panel" class="hidden">
+          <p class="muted small">Регистрация создаёт аккаунт клиента. Сотрудников регистрирует администратор.</p>
+          <form id="register-form">
+            <label>Имя<input id="reg-name" autocomplete="name" required></label>
+            <label>Email<input id="reg-email" type="email" autocomplete="email" required></label>
+            <label>Телефон<input id="reg-phone" maxlength="12" autocomplete="tel" required></label>
+            <label>Логин<input id="reg-login" minlength="3" maxlength="32" pattern="[A-Za-z0-9._-]+" autocomplete="username" required></label>
+            <label>Пароль<input id="reg-password" type="password" minlength="8" maxlength="72" autocomplete="new-password" required></label>
+            <button class="primary-btn full">Создать аккаунт</button>
+          </form>
+          <p class="muted small">Уже есть аккаунт? <button type="button" class="text-btn" id="show-login">Войти</button></p>
+        </div>
+      </div>
+    </div>
+  </dialog>
+  <div id="toast" class="toast"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
